@@ -17,7 +17,9 @@ python manage.py runserver
 git clone https://github.com/mohsenone/millionaire.git
 cd millionaire
 pip install -r requirements.txt
+rm db.sqlite3
 python manage.py migrate
 python manage.py createsuperuser
+python manage.py runserver
 # now go to localhost:8000 and login with your username and password
 ```
