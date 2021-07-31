@@ -1,0 +1,35 @@
+<header class="p-3 bg-dark text-white">
+  <div class="container">
+
+    <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+      <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+      <span class="fs-4">Millionaire</span>
+    </a>
+
+      <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+        <li class="nav-item"><a href="{% url 'game:home' %}" 
+          class="nav-link {% if '/game/' == request.path %}text-white{% else %}text-secondary{% endif %}" aria-current="page">Home</a></li>
+        {% if request.user.is_staff %}
+        <li class="nav-item"><a href="{% url 'account:user_list' %}" 
+          class="nav-link {% if '/manage/users/' == request.path %}text-white{% else %}text-secondary{% endif %}" aria-current="page">Manage Users</a></li>
+        <li class="nav-item"><a href="{% url 'question:question_list' %}" 
+          class="nav-link {% if '/manage/questions/' == request.path %}text-white{% else %}text-secondary{% endif %}" aria-current="page">Manage Questions</a></li>
+        {% endif %}
+      </ul>
+
+      <ul class="nav text-end">
+        {% if request.user.is_authenticated %}
+        <li class="nav-item"><a class="nav-link text-secondary">Welcome {{request.user.username}}!</a></li>
+        <li class="nav-item"><a href="{% url 'account:logout' %}" 
+          class="nav-link text-secondary" aria-current="page">Logout</a></li>
+        {% else %}
+        <li class="nav-item"><a href="{% url 'account:login' %}" 
+          class="nav-link {% if '/login/' == request.path %}text-white{% else %}text-secondary{% endif %}" aria-current="page">Login</a></li>
+        <li class="nav-item"><a href="{% url 'account:register' %}" 
+          class="nav-link {% if '/register/' == request.path %}text-white{% else %}text-secondary{% endif %}" aria-current="page">Register</a></li>
+        {% endif %}
+      </ul>
+
+    </div>
+  </div>
+</header>

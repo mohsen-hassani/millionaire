@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    {% if messages %}
+        {% for message in messages %}
+            <div {% if message.tags %} class="alert alert-{{message.extra_tags}}"{% endif %}" role="alert">
+                <span>{{ message }}</span>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="container-fluid py-5">
+        <h1 class="display-5 fw-bold">Welcome to Millionaire!</h1>
+        <p class="col-md-8 fs-4">
+            In this game you can request for a game and answer to 5 questions. For each question you will
+            get some points. Good Luck!
+        </p>
+        {% for game in user.games.all %}
+            <div class="card mb-3" style="max-width: 720px;">
+                <div class="row ">
+                    <div class="col-md-9">
+                        <div class="card-body">
+                            <h5 class="card-title">User Game</h5>
+                            <p class="card-text mt-3">Reqeusted by user in {{game.created_date}}</p>
+                            <p class="card-text"><small class="text-muted">Status:
+                                {% if game.finished_date %}
+                                    Finished in {{game.finished_date}}. Score: {{game.get_score}}
+                                {% else %}
+                                    Not finished
+                                {% endif %}
+                            </small></p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        {% if game.finished_date %}
+                            <a href="{% url 'game:view_game' game.id %}" class="btn btn-primary mt-5">View Game</a>
+                        {% else %}
+                            <a href="{% url 'game:play_game' game.id %}" class="btn btn-success mt-5">Enter the Game</a>
+                        {% endif %}
+                    </div>
+                </div>
+                </div>
+        {% endfor %}
+        <a href="{% url 'game:request_game' %}" class="btn btn-primary btn-lg">Request a new Game</a>
+    </div>
+    <div class="container-fluid">
+        <h2>Top 10 Highest Scores</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <td>Name</td>
+                    <td>Score</td>
+                </tr>
+                <tbody>
+                    {% for score in score_table %}
+                        <tr>
+                            <td>{{score.participant__profile__surname}}</td>
+                            <td>{{score.score}}</td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="2">No scores yet</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </thead>
+        </table>
+    </div>
+
+
+{% endblock %}

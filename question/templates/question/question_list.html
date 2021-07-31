@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="d-flex justify-content-between">
+    <h2>Questions</h2>
+    <a href="{% url 'question:question_add' %}" class="btn btn-primary">New Question</a>
+</div>
+<table class="table table-bordered my-2">
+    <thead>
+        <tr>
+            <th>Body</th>
+            <th>Rating</th>
+            <th>Total Possible Answers</th>
+            <th>Correct Answer</th>
+            <th>Created Date</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for question in questions %}
+        <tr>
+            <td>{{ question.body}}</td>
+            <td>{{ question.rating}}</td>
+            <td>{{ question.possible_answers.count }}</td>
+            <td>{{ question.correct_answer}}</td>
+            <td>{{ question.created_date }}</td>
+            <td>
+                <a class="btn btn-sm btn btn-outline-primary" href="{% url 'question:question_possible_answer' question.id %}">Possible Answers</a>
+                <a class="btn btn-sm btn btn-outline-primary" href="{% url 'question:question_edit' question.id %}">Edit</a>
+                <a class="btn btn-sm btn btn-outline-danger" href="{% url 'question:question_delete' question.id %}">Delete</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="6">No data</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

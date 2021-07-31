@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="d-flex justify-content-between">
+    <h2>Questions</h2>
+    <a href="{% url 'question:possible_answer_add' question.id %}" class="btn btn-primary">New Possible Answer</a>
+</div>
+<table class="table table-bordered my-2">
+    <thead>
+        <tr>
+            <th>Body</th>
+            <th>Is Correct Answer</th>
+            <th>Created Date</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for ans in answers %}
+        <tr>
+            <td>{{ ans.body}}</td>
+            <td>{{ ans.is_correct}}</td>
+            <td>{{ ans.created_date }}</td>
+            <td>
+                <a class="btn btn-sm btn-outline-primary" href="{% url 'question:set_as_correct_answer' ans.id %}">Set as correct answer</a>
+                <a class="btn btn-sm btn-outline-primary" href="{% url 'question:possible_answer_edit' ans.id %}">Edit</a>
+                <a class="btn btn-sm btn-outline-danger" href="{% url 'question:possible_answer_delete' ans.id %}">Delete</a>
+
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4">No data</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<a class="btn btn btn-outline-dark" href="{% url 'question:question_list' %}">Back</a>
+{% endblock %}

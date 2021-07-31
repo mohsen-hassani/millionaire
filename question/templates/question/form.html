@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <form method="POST" class="form">
+        {% csrf_token %}
+        {{ formset.management_form }}
+        {{form.as_p}}
+        <p>
+            <h4>Possible Answers</h4>
+            {% for error in formset.non_form_errors %}
+                {{error}}
+            {% endfor %}
+            <br >
+            <div id="possible_answers">
+                {% for form in formset %}
+                    {{form.as_table}}<br/>
+                {% endfor %}
+            </div>
+            <label></label>
+            <input type="submit" class="btn btn-success" value="Submit" />
+            <button type="button" class="btn btn-dark" onclick="history.back()">Back</button>
+            <button type="button" class="btn btn-primary" onclick="add_form()">Add</button>
+            <button type="button" class="btn btn-warning" onclick="delete_form()">Delete</button>
+        </p>
+    </form>
+    <div>
+        
+    </div>
+    <script>
+        function add_form() {
+            base_form = `<div id="extra-form-__prefix__">{{formset.empty_form}}</div>`;
+            form_count_input = document.getElementById("id_form-TOTAL_FORMS");
+            form_num = form_count_input.value;
+            form_num ++;
+            form_count_input.value = form_num;
+            base_form = base_form.replaceAll('__prefix__', form_num - 1);
+            forms_div = document.getElementById("possible_answers");
+            forms_div.insertAdjacentHTML('beforeend', base_form);
+        }
+        function delete_form() {
+            form_count_input = document.getElementById("id_form-TOTAL_FORMS");
+            form_num = form_count_input.value;
+            if (form_num > 4) {
+                form = document.getElementById(`extra-form-${form_num - 1}`)
+                form.remove();
+                form_num --;
+                form_count_input.value = form_num;
+            }
+            
+        }
+    </script>
+{% endblock %}

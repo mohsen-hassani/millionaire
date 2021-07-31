@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block header_styles %}
+    {{ block.super }}
+    <style type="text/css">
+    .form label {
+        width: 100%;
+    }
+    </style>
+{% endblock %}
+
+{% block content %}
+      <div class="container-fluid">
+            <h4>View Game</h4>
+            <small>Help: Red is user answer, and Green is correct answer. If user answered correctly, it is only Green.</small>
+            {% for game_question in game.questions.all %}
+                <div class="card mt-4">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-md-10">{{game_question.question.body}}</div>
+                            <div class="col-md-2 text-end">{{game_question.final_score}}/{{game_question.question.rating}} Points</div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        {% for possible_answer in game_question.question.possible_answers.all %}
+                            <div class="row">
+                                <div role="alert" class="alert d-flex align-items-center
+                                    {% if possible_answer.is_correct %}
+                                        alert-success
+                                    {% elif not possible_answer.is_correct and possible_answer == game_question.user_answer %}
+                                        alert-danger
+                                    {% endif %}">
+                                    {% if possible_answer.is_correct %}
+                                        <span class="mx-2"><i class="fa fa-check"></i></span>
+                                    {% else %}
+                                        <span class="mx-2"><i class="fa fa-circle"></i></span>
+                                    {% endif %}
+                                    {{possible_answer}}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+      </div>
+{% endblock %}

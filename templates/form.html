@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <form method="POST" class="form">
+        {% for form in forms %}
+            {% csrf_token %}
+            {{form.as_p}}
+        {% endfor %}
+        <p>
+            <label></label>
+            <input type="submit" class="btn btn-success" value="Submit" />
+            <button type="button" class="btn btn-light" onclick="history.back()">Back</button>
+        </p>
+    </form>
+{% endblock %}

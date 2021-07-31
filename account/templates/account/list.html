@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="d-flex justify-content-between">
+    <h2>Users</h2>
+    <a href="{% url 'account:user_add' %}" class="btn btn-primary">New User</a>
+</div>
+<table class="table table-bordered my-2">
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Name</th>
+            <th>Surname</th>
+            <th>Is Admin</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in users %}
+        <tr>
+            <td>{{ user.username}}</td>
+            <td>{{ user.profile.name}}</td>
+            <td>{{ user.profile.surname}}</td>
+            <td>{{ user.is_staff }}</td>
+            <td>
+                <a class="btn btn-sm btn-outline-primary" href="{% url 'account:user_edit' user.id %}">Edit</a>
+                <a class="btn btn-sm btn-outline-warning" href="{% url 'account:user_password' user.id %}">Set/Change Password</a>
+                <a class="btn btn-sm btn-outline-danger" href="{% url 'account:user_delete' user.id %}">Delete</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="5">No data</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
