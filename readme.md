@@ -6,7 +6,7 @@ A simple quiz game based on django framework
 ### Use ready-to-use Sqlite database
 ```
 git clone https://github.com/mohsenone/millionaire.git
-cd millionarie
+cd millionaire
 pip install -r requirements.txt
 python manage.py runserver
 # now go to localhost:8000 and login with username admin and password aaaAAA123@
@@ -15,7 +15,7 @@ python manage.py runserver
 ### Clean start
 ```
 git clone https://github.com/mohsenone/millionaire.git
-cd millionarie
+cd millionaire
 pip install -r requirements.txt
 python manage.py migrate
 python manage.py createsuperuser
